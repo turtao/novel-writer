@@ -3,356 +3,609 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>novel writer</title>
+
+  <title>Novel Writer</title>
 
   <style>
-    :root {
-      --cream: #fffaf2;
-      --paper: #fffdf9;
-      --yellow: #f4df9b;
-      --yellow-soft: #faf0c9;
-      --brown: #735b4a;
-      --brown-light: #a88f7d;
-      --pink: #e9b7b5;
-      --pink-soft: #f8dddd;
-      --text: #57483e;
-      --muted: #aa9a8e;
-      --border: #eee2d6;
-      --white: #ffffff;
-    }
-
     * {
       box-sizing: border-box;
     }
 
+    :root {
+      --cream: #fffaf0;
+      --cream-dark: #f6eedc;
+      --yellow: #f4d98b;
+      --yellow-light: #fff1bd;
+      --pink: #f3c8c8;
+      --pink-light: #fff0f0;
+      --brown: #6f5747;
+      --brown-light: #927866;
+      --text: #4f4037;
+      --white: #ffffff;
+      --border: #eadfca;
+      --shadow: 0 8px 25px rgba(111, 87, 71, 0.08);
+    }
+
     body {
       margin: 0;
-      min-height: 100vh;
       background: var(--cream);
       color: var(--text);
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "Noto Sans Thai",
-        sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     button,
     input,
     textarea {
-      font: inherit;
+      font-family: inherit;
     }
 
     button {
       cursor: pointer;
     }
 
+    /* =========================
+       COMMON
+    ========================= */
+
     .app {
-      width: min(1100px, 100%);
-      margin: 0 auto;
-      padding: 28px 24px 40px;
+      min-height: 100vh;
     }
 
-    /* Header */
-
-    header {
+    .topbar {
+      height: 72px;
+      background: rgba(255, 250, 240, 0.94);
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 28px;
+      padding: 0 32px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand-mark {
-      width: 38px;
-      height: 38px;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      background: var(--yellow-soft);
-      color: var(--brown);
-      font-size: 19px;
-    }
-
-    .brand-name {
-      font-family: Georgia, "Times New Roman", serif;
+    .logo {
       font-size: 21px;
-      letter-spacing: 0.02em;
+      font-weight: 700;
       color: var(--brown);
+      letter-spacing: -0.5px;
     }
 
-    .save-status {
-      font-size: 13px;
-      color: var(--muted);
-      transition: opacity 0.2s ease;
+    .container {
+      width: min(1050px, calc(100% - 40px));
+      margin: 0 auto;
     }
 
-    /* Main layout */
-
-    .workspace {
-      display: grid;
-      grid-template-columns: 1fr 250px;
-      gap: 24px;
-      align-items: start;
+    .hidden {
+      display: none !important;
     }
 
-    .editor-card {
-      background: var(--paper);
+    /* =========================
+       HOME
+    ========================= */
+
+    #homePage {
+      padding: 45px 0 70px;
+    }
+
+    .home-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .home-title {
+      margin: 0 0 7px;
+      font-size: 32px;
+      letter-spacing: -1px;
+    }
+
+    .home-subtitle {
+      margin: 0;
+      color: var(--brown-light);
+      font-size: 15px;
+    }
+
+    .primary-btn {
+      border: none;
+      background: var(--brown);
+      color: white;
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.92;
+    }
+
+    .stories {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .story-card {
+      background: var(--white);
       border: 1px solid var(--border);
-      border-radius: 18px;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
       overflow: hidden;
     }
 
-    .editor-top {
-      padding: 24px 28px 18px;
+    .story-header {
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      background: linear-gradient(
+        90deg,
+        var(--yellow-light),
+        #fff9e9
+      );
       border-bottom: 1px solid var(--border);
     }
 
-    .chapter-label {
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+    .story-info {
+      min-width: 0;
     }
 
-    .chapter-title {
+    .story-name {
+      margin: 0;
+      font-size: 21px;
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    .story-meta {
+      margin-top: 5px;
+      color: var(--brown-light);
+      font-size: 13px;
+    }
+
+    .story-actions {
+      display: flex;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: white;
+      color: var(--brown);
+      font-size: 15px;
+    }
+
+    .icon-btn:hover {
+      background: var(--cream);
+    }
+
+    .chapters {
+      padding: 7px 15px 14px;
+    }
+
+    .chapter-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 9px;
+      border-bottom: 1px solid #f2eadc;
+      transition: 0.15s;
+    }
+
+    .chapter-row:last-child {
+      border-bottom: none;
+    }
+
+    .chapter-row:hover {
+      background: #fffaf3;
+      border-radius: 12px;
+    }
+
+    .chapter-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: var(--pink-light);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--brown);
+      font-size: 13px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .chapter-main {
+      flex: 1;
+      min-width: 0;
+      cursor: pointer;
+    }
+
+    .chapter-name {
+      font-size: 15px;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .chapter-words {
+      color: var(--brown-light);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .chapter-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .small-btn {
+      border: none;
+      background: transparent;
+      color: var(--brown-light);
+      padding: 7px;
+      border-radius: 8px;
+    }
+
+    .small-btn:hover {
+      background: var(--cream-dark);
+      color: var(--brown);
+    }
+
+    .add-chapter {
       width: 100%;
-      border: 0;
-      outline: 0;
+      margin-top: 5px;
+      padding: 12px;
+      border: 1px dashed #ddcdb2;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--brown-light);
+      font-size: 13px;
+    }
+
+    .add-chapter:hover {
+      background: var(--yellow-light);
+      color: var(--brown);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--brown-light);
+    }
+
+    .empty-icon {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state h2 {
+      margin: 0 0 7px;
+      color: var(--brown);
+      font-size: 21px;
+    }
+
+    .empty-state p {
+      margin: 0 0 20px;
+      font-size: 14px;
+    }
+
+    /* =========================
+       EDITOR
+    ========================= */
+
+    #editorPage {
+      min-height: 100vh;
+      background: #fffdf8;
+    }
+
+    .editor-topbar {
+      min-height: 66px;
+      background: rgba(255, 253, 248, 0.96);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      gap: 15px;
+    }
+
+    .back-btn {
+      border: none;
       background: transparent;
       color: var(--brown);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 27px;
-      padding: 0;
+      font-size: 14px;
+      padding: 9px 10px;
+      border-radius: 10px;
     }
 
-    .chapter-title::placeholder {
-      color: #cbbdb2;
+    .back-btn:hover {
+      background: var(--cream-dark);
+    }
+
+    .editor-title-area {
+      flex: 1;
+      text-align: center;
+      min-width: 0;
+    }
+
+    .editor-story-name {
+      color: var(--brown-light);
+      font-size: 11px;
+      margin-bottom: 2px;
+    }
+
+    .editor-chapter-name {
+      font-size: 15px;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .save-status {
+      color: #9b887a;
+      font-size: 12px;
+      min-width: 75px;
+      text-align: right;
+    }
+
+    .editor-container {
+      width: min(850px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 50px 0 100px;
+    }
+
+    .chapter-title-input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--brown);
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+
+    .chapter-title-input::placeholder {
+      color: #cdbfae;
     }
 
     .editor {
       width: 100%;
-      min-height: 570px;
+      min-height: 65vh;
       resize: vertical;
-      border: 0;
-      outline: 0;
-      background: var(--paper);
-      color: var(--text);
-      padding: 30px 28px;
-      font-family: Georgia, "Noto Serif Thai", "Times New Roman", serif;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #51443c;
       font-size: 17px;
       line-height: 1.9;
+      padding: 0;
     }
 
     .editor::placeholder {
-      color: #c5b7ad;
+      color: #cdbfae;
     }
 
-    /* Sidebar */
-
-    .sidebar {
+    .editor-footer {
+      margin-top: 35px;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
       display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .stat-card {
-      background: rgba(255, 253, 249, 0.85);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 7px;
-    }
-
-    .stat-number {
-      color: var(--brown);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 25px;
-    }
-
-    .goal-card {
-      background: var(--yellow-soft);
-      border: 1px solid #f0e2b4;
-      border-radius: 16px;
-      padding: 18px;
-    }
-
-    .goal-heading {
-      display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
+      color: var(--brown-light);
+      font-size: 13px;
     }
 
-    .goal-title {
-      font-size: 13px;
+    .stat {
+      display: flex;
+      gap: 5px;
+    }
+
+    .stat strong {
       color: var(--brown);
     }
 
-    .goal-percent {
-      font-size: 12px;
-      color: var(--brown-light);
-    }
-
-    .progress-track {
-      height: 8px;
-      background: rgba(255, 255, 255, 0.65);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background: var(--pink);
-      border-radius: 99px;
-      transition: width 0.3s ease;
-    }
-
-    .goal-bottom {
+    .goal-area {
+      margin-left: auto;
       display: flex;
-      justify-content: space-between;
-      margin-top: 11px;
-      font-size: 12px;
-      color: var(--brown-light);
+      align-items: center;
+      gap: 8px;
     }
 
     .goal-input {
       width: 80px;
-      border: 0;
-      border-bottom: 1px solid #d8c5a0;
-      background: transparent;
+      padding: 7px 9px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: white;
       color: var(--brown);
       outline: none;
-      text-align: right;
-      padding: 2px 0;
     }
 
-    .goal-input:focus {
-      border-color: var(--pink);
+    .progress-wrapper {
+      width: 100%;
     }
 
-    .tip-card {
-      background: var(--pink-soft);
-      border: 1px solid #efd0ce;
-      border-radius: 16px;
-      padding: 18px;
+    .progress-bar {
+      height: 7px;
+      background: var(--cream-dark);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 8px;
     }
 
-    .tip-title {
-      font-size: 13px;
-      color: var(--brown);
-      margin-bottom: 7px;
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: var(--yellow);
+      border-radius: 99px;
+      transition: width 0.2s;
     }
 
-    .tip-text {
-      margin: 0;
-      font-family: Georgia, "Noto Serif Thai", serif;
-      font-size: 13px;
-      line-height: 1.7;
-      color: #8d7169;
+    .danger-btn {
+      border: none;
+      background: var(--pink-light);
+      color: #a06c6c;
+      padding: 9px 13px;
+      border-radius: 10px;
+      font-size: 12px;
     }
 
-    /* Bottom */
+    /* =========================
+       MODAL
+    ========================= */
 
-    .bottom-bar {
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(79, 64, 55, 0.28);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 20px;
-      padding: 15px 24px;
-      border-top: 1px solid var(--border);
-      background: #fffcf8;
-      color: var(--muted);
-      font-size: 12px;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
     }
 
-    .bottom-stats {
+    .modal {
+      width: min(420px, 100%);
+      background: white;
+      border-radius: 22px;
+      padding: 25px;
+      box-shadow: 0 20px 60px rgba(79, 64, 55, 0.18);
+    }
+
+    .modal h2 {
+      margin: 0 0 8px;
+      color: var(--brown);
+      font-size: 21px;
+    }
+
+    .modal p {
+      margin: 0 0 18px;
+      color: var(--brown-light);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .modal input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      color: var(--text);
+      font-size: 14px;
+      margin-bottom: 17px;
+    }
+
+    .modal input:focus {
+      border-color: var(--yellow);
+    }
+
+    .modal-buttons {
       display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
+      justify-content: flex-end;
+      gap: 8px;
     }
 
-    .bottom-stat strong {
+    .cancel-btn {
+      border: none;
+      background: var(--cream-dark);
       color: var(--brown);
-      font-weight: 500;
+      padding: 10px 16px;
+      border-radius: 11px;
     }
 
-    .clear-button {
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      font-size: 12px;
-      padding: 6px 8px;
-      border-radius: 8px;
-    }
+    /* =========================
+       MOBILE
+    ========================= */
 
-    .clear-button:hover {
-      background: var(--pink-soft);
-      color: var(--brown);
-    }
+    @media (max-width: 650px) {
 
-    /* Mobile */
-
-    @media (max-width: 760px) {
-      .app {
-        padding: 18px 14px 28px;
+      .topbar {
+        height: 60px;
+        padding: 0 18px;
       }
 
-      header {
-        margin-bottom: 18px;
+      .container {
+        width: calc(100% - 28px);
       }
 
-      .workspace {
-        grid-template-columns: 1fr;
+      #homePage {
+        padding-top: 30px;
       }
 
-      .sidebar {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+      .home-header {
+        align-items: flex-start;
+        flex-direction: column;
       }
 
-      .tip-card {
-        grid-column: 1 / -1;
+      .home-title {
+        font-size: 27px;
+      }
+
+      .primary-btn {
+        width: 100%;
+      }
+
+      .story-header {
+        padding: 18px;
+      }
+
+      .story-name {
+        font-size: 18px;
+      }
+
+      .chapter-row {
+        padding: 12px 5px;
+      }
+
+      .chapter-actions .small-btn {
+        padding: 5px;
+      }
+
+      .editor-topbar {
+        padding: 0 12px;
+      }
+
+      .editor-container {
+        width: calc(100% - 30px);
+        padding-top: 35px;
+      }
+
+      .chapter-title-input {
+        font-size: 25px;
       }
 
       .editor {
-        min-height: 500px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sidebar {
-        grid-template-columns: 1fr;
-      }
-
-      .editor-top {
-        padding: 20px 18px 15px;
-      }
-
-      .editor {
-        padding: 24px 18px;
         font-size: 16px;
       }
 
-      .bottom-bar {
-        padding: 14px 18px;
-        align-items: flex-start;
-        flex-direction: column;
+      .goal-area {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .goal-input {
+        width: 100px;
       }
     }
   </style>
@@ -360,548 +613,1309 @@
 
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <header>
-      <div class="brand">
-        <div class="brand-mark">✦</div>
-        <div class="brand-name">novel writer</div>
+  <!-- =========================
+       HOME PAGE
+  ========================== -->
+
+  <div id="homePage">
+
+    <div class="topbar">
+      <div class="logo">✦ novel writer</div>
+    </div>
+
+    <main class="container">
+
+      <div class="home-header">
+        <div>
+          <h1 class="home-title">My Stories</h1>
+          <p class="home-subtitle">
+            เก็บเรื่องราวและตอนทั้งหมดของคุณไว้ที่นี่
+          </p>
+        </div>
+
+        <button class="primary-btn" onclick="createStory()">
+          ＋ สร้างเรื่องใหม่
+        </button>
       </div>
 
-      <div class="save-status" id="saveStatus">
-        saved
+      <div id="storiesContainer"></div>
+
+    </main>
+  </div>
+
+
+  <!-- =========================
+       EDITOR PAGE
+  ========================== -->
+
+  <div id="editorPage" class="hidden">
+
+    <div class="editor-topbar">
+
+      <button class="back-btn" onclick="goHome()">
+        ← กลับหน้าหลัก
+      </button>
+
+      <div class="editor-title-area">
+        <div id="editorStoryName" class="editor-story-name"></div>
+        <div id="editorChapterName" class="editor-chapter-name"></div>
       </div>
-    </header>
 
+      <div id="saveStatus" class="save-status">
+        บันทึกแล้ว
+      </div>
 
-    <main class="workspace">
+    </div>
 
-      <!-- Editor -->
-      <section class="editor-card">
+    <main class="editor-container">
 
-        <div class="editor-top">
-          <div class="chapter-label">chapter</div>
+      <input
+        id="chapterTitleInput"
+        class="chapter-title-input"
+        type="text"
+        placeholder="ชื่อตอน..."
+        oninput="updateChapterTitle()"
+      >
+
+      <textarea
+        id="editor"
+        class="editor"
+        placeholder="เริ่มเขียนเรื่องราวของคุณตรงนี้..."
+        oninput="editorChanged()"
+      ></textarea>
+
+      <div class="editor-footer">
+
+        <div class="stat">
+          คำ
+          <strong id="wordCount">0</strong>
+        </div>
+
+        <div class="stat">
+          ตัวอักษร
+          <strong id="charCount">0</strong>
+        </div>
+
+        <div class="stat">
+          เป้าหมาย
+          <strong id="goalPercent">0%</strong>
+        </div>
+
+        <div class="goal-area">
+          <span>เป้าหมาย/วัน</span>
 
           <input
-            id="chapterTitle"
-            class="chapter-title"
-            type="text"
-            placeholder="Untitled chapter"
-            maxlength="120"
-            autocomplete="off"
+            id="goalInput"
+            class="goal-input"
+            type="number"
+            min="1"
+            value="2000"
+            onchange="saveGoal()"
           >
         </div>
 
-        <textarea
-          id="editor"
-          class="editor"
-          placeholder="เริ่มเขียนเรื่องราวของคุณตรงนี้..."
-          spellcheck="false"
-        ></textarea>
-
-
-        <div class="bottom-bar">
-
-          <div class="bottom-stats">
-            <div class="bottom-stat">
-              <strong id="wordCount">0</strong> words
-            </div>
-
-            <div class="bottom-stat">
-              <strong id="characterCount">0</strong> characters
-            </div>
-          </div>
-
-          <button
-            id="clearButton"
-            class="clear-button"
-            type="button"
-          >
-            clear
-          </button>
-
-        </div>
-
-      </section>
-
-
-      <!-- Tracker -->
-      <aside class="sidebar">
-
-        <div class="stat-card">
-          <div class="stat-label">
-            total words
-          </div>
-
-          <div class="stat-number" id="totalWords">
-            0
+        <div class="progress-wrapper">
+          <div class="progress-bar">
+            <div id="progress" class="progress"></div>
           </div>
         </div>
 
-
-        <div class="goal-card">
-
-          <div class="goal-heading">
-            <div class="goal-title">
-              today's goal
-            </div>
-
-            <div class="goal-percent" id="goalPercent">
-              0%
-            </div>
-          </div>
-
-          <div class="progress-track">
-            <div
-              class="progress-bar"
-              id="progressBar"
-            ></div>
-          </div>
-
-          <div class="goal-bottom">
-            <span id="goalCurrent">0 words</span>
-
-            <input
-              id="goalInput"
-              class="goal-input"
-              type="number"
-              min="1"
-              max="100000"
-              value="2000"
-              aria-label="Daily word goal"
-            >
-          </div>
-
-        </div>
-
-
-        <div class="stat-card">
-          <div class="stat-label">
-            writing progress
-          </div>
-
-          <div class="stat-number" id="remainingWords">
-            2,000
-          </div>
-
-          <div
-            style="
-              margin-top: 5px;
-              font-size: 12px;
-              color: var(--muted);
-            "
-          >
-            words remaining
-          </div>
-        </div>
-
-
-        <div class="tip-card">
-
-          <div class="tip-title">
-            a little note
-          </div>
-
-          <p class="tip-text">
-            ไม่จำเป็นต้องเขียนให้สมบูรณ์แบบ
-            เขียนต่อไปทีละคำก็พอ ♡
-          </p>
-
-        </div>
-
-      </aside>
+      </div>
 
     </main>
 
   </div>
 
 
-  <script>
-    /*
-      ------------------------------------------------
-      NOVEL WRITER
-      ------------------------------------------------
-      ข้อมูลทั้งหมดจะถูกบันทึกไว้ใน Browser
-      ของเครื่องนี้ด้วย localStorage
-      ------------------------------------------------
-    */
+  <!-- =========================
+       MODAL
+  ========================== -->
 
-    const editor = document.getElementById("editor");
-    const chapterTitle = document.getElementById("chapterTitle");
+  <div id="modalBackdrop" class="modal-backdrop hidden">
 
-    const wordCountElement = document.getElementById("wordCount");
-    const characterCountElement = document.getElementById("characterCount");
+    <div class="modal">
 
-    const totalWordsElement = document.getElementById("totalWords");
+      <h2 id="modalTitle">สร้างเรื่องใหม่</h2>
 
-    const goalInput = document.getElementById("goalInput");
-    const goalCurrent = document.getElementById("goalCurrent");
-    const goalPercent = document.getElementById("goalPercent");
-    const progressBar = document.getElementById("progressBar");
+      <p id="modalDescription">
+        ตั้งชื่อเรื่องของคุณ
+      </p>
 
-    const remainingWords = document.getElementById("remainingWords");
+      <input
+        id="modalInput"
+        type="text"
+        placeholder="ชื่อเรื่อง..."
+        onkeydown="modalEnter(event)"
+      >
 
-    const saveStatus = document.getElementById("saveStatus");
-    const clearButton = document.getElementById("clearButton");
+      <div class="modal-buttons">
+
+        <button
+          class="cancel-btn"
+          onclick="closeModal()"
+        >
+          ยกเลิก
+        </button>
+
+        <button
+          class="primary-btn"
+          onclick="confirmModal()"
+        >
+          ตกลง
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
 
 
-    /*
-      -----------------------------------------------
-      Storage keys
-      -----------------------------------------------
-    */
+<script>
 
-    const STORAGE = {
-      text: "novelWriter_text",
-      title: "novelWriter_title",
-      goal: "novelWriter_goal"
-    };
+  /* ========================================
+     DATA
+  ======================================== */
+
+  const STORAGE_KEY = "novelWriterData";
+
+  let data = {
+    stories: []
+  };
+
+  let currentStoryId = null;
+  let currentChapterId = null;
+
+  let modalAction = null;
 
 
-    /*
-      -----------------------------------------------
-      Count words
-      -----------------------------------------------
+  /* ========================================
+     LOAD / SAVE
+  ======================================== */
 
-      รองรับภาษาไทยด้วย Intl.Segmenter
-      ถ้า Browser ไม่รองรับ จะใช้วิธี fallback
-    */
+  function loadData() {
 
-    function countWords(text) {
+    const saved = localStorage.getItem(STORAGE_KEY);
 
-      if (!text || !text.trim()) {
-        return 0;
+    if (saved) {
+
+      try {
+
+        data = JSON.parse(saved);
+
+      } catch (error) {
+
+        data = {
+          stories: []
+        };
+
       }
 
-      /*
-        วิธีที่ดีที่สุดสำหรับภาษาไทย
-      */
+    }
 
-      if ("Segmenter" in Intl) {
+  }
 
-        try {
 
-          const segmenter = new Intl.Segmenter(
-            "th",
-            {
-              granularity: "word"
-            }
-          );
+  function saveData() {
 
-          let count = 0;
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(data)
+    );
 
-          for (const segment of segmenter.segment(text)) {
+  }
 
-            if (segment.isWordLike) {
-              count++;
-            }
+
+  /* ========================================
+     ID
+  ======================================== */
+
+  function createId() {
+
+    return Date.now().toString(36) +
+      Math.random().toString(36).substring(2);
+
+  }
+
+
+  /* ========================================
+     WORD COUNT
+  ======================================== */
+
+  function countWords(text) {
+
+    if (!text.trim()) {
+      return 0;
+    }
+
+    if (window.Intl && Intl.Segmenter) {
+
+      const segmenter = new Intl.Segmenter(
+        undefined,
+        {
+          granularity: "word"
+        }
+      );
+
+      let count = 0;
+
+      for (const part of segmenter.segment(text)) {
+
+        if (part.isWordLike) {
+          count++;
+        }
+
+      }
+
+      return count;
+    }
+
+    return text
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .length;
+  }
+
+
+  /* ========================================
+     HOME
+  ======================================== */
+
+  function renderHome() {
+
+    const container =
+      document.getElementById("storiesContainer");
+
+    if (data.stories.length === 0) {
+
+      container.innerHTML = `
+
+        <div class="empty-state">
+
+          <div class="empty-icon">📖</div>
+
+          <h2>ยังไม่มีเรื่องของคุณ</h2>
+
+          <p>
+            เริ่มสร้างเรื่องแรก แล้วค่อยเพิ่มตอนต่าง ๆ เข้าไป
+          </p>
+
+          <button
+            class="primary-btn"
+            onclick="createStory()"
+          >
+            ＋ สร้างเรื่องแรก
+          </button>
+
+        </div>
+
+      `;
+
+      return;
+    }
+
+
+    container.innerHTML = "";
+
+    const storiesWrapper =
+      document.createElement("div");
+
+    storiesWrapper.className = "stories";
+
+
+    data.stories.forEach((story) => {
+
+      const storyCard =
+        document.createElement("div");
+
+      storyCard.className = "story-card";
+
+
+      const totalWords =
+        story.chapters.reduce(
+          (sum, chapter) =>
+            sum + countWords(chapter.content || ""),
+          0
+        );
+
+
+      storyCard.innerHTML = `
+
+        <div class="story-header">
+
+          <div class="story-info">
+
+            <h2 class="story-name">
+              📁 ${escapeHTML(story.name)}
+            </h2>
+
+            <div class="story-meta">
+              ${story.chapters.length} ตอน
+              · ${totalWords.toLocaleString()} คำ
+            </div>
+
+          </div>
+
+          <div class="story-actions">
+
+            <button
+              class="icon-btn"
+              title="เปลี่ยนชื่อเรื่อง"
+              onclick="renameStory('${story.id}')"
+            >
+              ✏️
+            </button>
+
+            <button
+              class="icon-btn"
+              title="ลบเรื่อง"
+              onclick="deleteStory('${story.id}')"
+            >
+              🗑️
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="chapters" id="chapters-${story.id}">
+        </div>
+
+      `;
+
+
+      const chaptersContainer =
+        storyCard.querySelector(
+          `#chapters-${story.id}`
+        );
+
+
+      if (story.chapters.length === 0) {
+
+        const emptyChapter =
+          document.createElement("div");
+
+        emptyChapter.style.cssText =
+          "padding:18px 8px;color:#927866;font-size:13px;";
+
+        emptyChapter.textContent =
+          "เรื่องนี้ยังไม่มีตอน";
+
+        chaptersContainer.appendChild(
+          emptyChapter
+        );
+
+      } else {
+
+        story.chapters.forEach(
+          (chapter, index) => {
+
+            const words =
+              countWords(chapter.content || "");
+
+            const row =
+              document.createElement("div");
+
+            row.className = "chapter-row";
+
+            row.innerHTML = `
+
+              <div class="chapter-number">
+                ${index + 1}
+              </div>
+
+              <div class="chapter-main">
+
+                <div class="chapter-name">
+                  ${escapeHTML(
+                    chapter.title ||
+                    `ตอนที่ ${index + 1}`
+                  )}
+                </div>
+
+                <div class="chapter-words">
+                  ${words.toLocaleString()} คำ
+                </div>
+
+              </div>
+
+              <div class="chapter-actions">
+
+                <button
+                  class="small-btn"
+                  title="เปลี่ยนชื่อตอน"
+                >
+                  ✏️
+                </button>
+
+                <button
+                  class="small-btn"
+                  title="ลบตอน"
+                >
+                  🗑️
+                </button>
+
+              </div>
+
+            `;
+
+
+            row.querySelector(
+              ".chapter-main"
+            ).onclick = () => {
+
+              openChapter(
+                story.id,
+                chapter.id
+              );
+
+            };
+
+
+            row.querySelectorAll(
+              ".small-btn"
+            )[0].onclick = (event) => {
+
+              event.stopPropagation();
+
+              renameChapter(
+                story.id,
+                chapter.id
+              );
+
+            };
+
+
+            row.querySelectorAll(
+              ".small-btn"
+            )[1].onclick = (event) => {
+
+              event.stopPropagation();
+
+              deleteChapter(
+                story.id,
+                chapter.id
+              );
+
+            };
+
+
+            chaptersContainer.appendChild(row);
 
           }
+        );
 
-          return count;
-
-        } catch (error) {
-          // ใช้ fallback ด้านล่าง
-        }
       }
 
 
-      /*
-        fallback สำหรับ Browser รุ่นเก่า
-      */
+      const addButton =
+        document.createElement("button");
 
-      return text
-        .trim()
-        .split(/\s+/)
-        .filter(Boolean)
-        .length;
-    }
+      addButton.className = "add-chapter";
+
+      addButton.textContent =
+        "＋ เพิ่มตอน";
+
+      addButton.onclick = () => {
+
+        createChapter(story.id);
+
+      };
+
+      chaptersContainer.appendChild(
+        addButton
+      );
 
 
-    /*
-      -----------------------------------------------
-      Update statistics
-      -----------------------------------------------
-    */
+      storiesWrapper.appendChild(
+        storyCard
+      );
 
-    function updateStats() {
+    });
 
-      const text = editor.value;
 
-      const words = countWords(text);
+    container.appendChild(
+      storiesWrapper
+    );
 
-      const characters = text.length;
+  }
 
-      let goal = parseInt(goalInput.value, 10);
 
-      if (!Number.isFinite(goal) || goal < 1) {
-        goal = 2000;
-        goalInput.value = goal;
+  /* ========================================
+     CREATE STORY
+  ======================================== */
+
+  function createStory() {
+
+    openModal(
+      "สร้างเรื่องใหม่",
+      "ตั้งชื่อเรื่องที่ต้องการสร้าง",
+      "",
+      (name) => {
+
+        if (!name.trim()) return;
+
+        const story = {
+
+          id: createId(),
+
+          name: name.trim(),
+
+          chapters: []
+
+        };
+
+
+        data.stories.push(story);
+
+        saveData();
+
+        renderHome();
+
+        createChapter(story.id);
+
       }
+    );
 
-      /*
-        Word count
-      */
+  }
 
-      wordCountElement.textContent =
-        words.toLocaleString("en-US");
 
-      /*
-        Character count
-      */
+  /* ========================================
+     RENAME STORY
+  ======================================== */
 
-      characterCountElement.textContent =
-        characters.toLocaleString("en-US");
+  function renameStory(storyId) {
 
-      /*
-        Total words
-        */
+    const story =
+      data.stories.find(
+        s => s.id === storyId
+      );
 
-      totalWordsElement.textContent =
-        words.toLocaleString("en-US");
+    if (!story) return;
 
-      /*
-        Goal progress
-      */
 
-      const percentage = Math.min(
+    openModal(
+      "เปลี่ยนชื่อเรื่อง",
+      "แก้ไขชื่อเรื่องของคุณ",
+      story.name,
+      (name) => {
+
+        if (!name.trim()) return;
+
+        story.name = name.trim();
+
+        saveData();
+
+        renderHome();
+
+      }
+    );
+
+  }
+
+
+  /* ========================================
+     DELETE STORY
+  ======================================== */
+
+  function deleteStory(storyId) {
+
+    const story =
+      data.stories.find(
+        s => s.id === storyId
+      );
+
+    if (!story) return;
+
+
+    const confirmed =
+      confirm(
+        `ต้องการลบเรื่อง "${story.name}" และตอนทั้งหมดภายในเรื่องนี้หรือไม่?`
+      );
+
+
+    if (!confirmed) return;
+
+
+    data.stories =
+      data.stories.filter(
+        s => s.id !== storyId
+      );
+
+
+    saveData();
+
+    renderHome();
+
+  }
+
+
+  /* ========================================
+     CREATE CHAPTER
+  ======================================== */
+
+  function createChapter(storyId) {
+
+    const story =
+      data.stories.find(
+        s => s.id === storyId
+      );
+
+    if (!story) return;
+
+
+    openModal(
+      "เพิ่มตอนใหม่",
+      "ตั้งชื่อตอน เช่น ตอนที่ 1 — จุดเริ่มต้น",
+      `ตอนที่ ${story.chapters.length + 1}`,
+      (title) => {
+
+        const chapter = {
+
+          id: createId(),
+
+          title:
+            title.trim() ||
+            `ตอนที่ ${story.chapters.length + 1}`,
+
+          content: "",
+
+          goal: 2000
+
+        };
+
+
+        story.chapters.push(
+          chapter
+        );
+
+        saveData();
+
+        renderHome();
+
+        openChapter(
+          story.id,
+          chapter.id
+        );
+
+      }
+    );
+
+  }
+
+
+  /* ========================================
+     RENAME CHAPTER
+  ======================================== */
+
+  function renameChapter(
+    storyId,
+    chapterId
+  ) {
+
+    const story =
+      data.stories.find(
+        s => s.id === storyId
+      );
+
+    if (!story) return;
+
+
+    const chapter =
+      story.chapters.find(
+        c => c.id === chapterId
+      );
+
+    if (!chapter) return;
+
+
+    openModal(
+      "เปลี่ยนชื่อตอน",
+      "แก้ไขชื่อของตอนนี้",
+      chapter.title,
+      (title) => {
+
+        if (!title.trim()) return;
+
+        chapter.title =
+          title.trim();
+
+        saveData();
+
+        renderHome();
+
+      }
+    );
+
+  }
+
+
+  /* ========================================
+     DELETE CHAPTER
+  ======================================== */
+
+  function deleteChapter(
+    storyId,
+    chapterId
+  ) {
+
+    const story =
+      data.stories.find(
+        s => s.id === storyId
+      );
+
+    if (!story) return;
+
+
+    const chapter =
+      story.chapters.find(
+        c => c.id === chapterId
+      );
+
+    if (!chapter) return;
+
+
+    const confirmed =
+      confirm(
+        `ต้องการลบ "${chapter.title}" หรือไม่?`
+      );
+
+
+    if (!confirmed) return;
+
+
+    story.chapters =
+      story.chapters.filter(
+        c => c.id !== chapterId
+      );
+
+
+    saveData();
+
+    renderHome();
+
+  }
+
+
+  /* ========================================
+     OPEN CHAPTER
+  ======================================== */
+
+  function openChapter(
+    storyId,
+    chapterId
+  ) {
+
+    currentStoryId = storyId;
+
+    currentChapterId = chapterId;
+
+
+    const story =
+      data.stories.find(
+        s => s.id === storyId
+      );
+
+    if (!story) return;
+
+
+    const chapter =
+      story.chapters.find(
+        c => c.id === chapterId
+      );
+
+    if (!chapter) return;
+
+
+    document
+      .getElementById("homePage")
+      .classList.add("hidden");
+
+
+    document
+      .getElementById("editorPage")
+      .classList.remove("hidden");
+
+
+    document
+      .getElementById("editorStoryName")
+      .textContent =
+      story.name;
+
+
+    document
+      .getElementById("editorChapterName")
+      .textContent =
+      chapter.title;
+
+
+    document
+      .getElementById("chapterTitleInput")
+      .value =
+      chapter.title;
+
+
+    document
+      .getElementById("editor")
+      .value =
+      chapter.content || "";
+
+
+    document
+      .getElementById("goalInput")
+      .value =
+      chapter.goal || 2000;
+
+
+    updateStats();
+
+
+    setTimeout(() => {
+
+      document
+        .getElementById("editor")
+        .focus();
+
+    }, 100);
+
+  }
+
+
+  /* ========================================
+     UPDATE TITLE
+  ======================================== */
+
+  function updateChapterTitle() {
+
+    const story =
+      data.stories.find(
+        s => s.id === currentStoryId
+      );
+
+    if (!story) return;
+
+
+    const chapter =
+      story.chapters.find(
+        c => c.id === currentChapterId
+      );
+
+    if (!chapter) return;
+
+
+    chapter.title =
+      document
+        .getElementById("chapterTitleInput")
+        .value;
+
+
+    document
+      .getElementById("editorChapterName")
+      .textContent =
+      chapter.title ||
+      "ไม่มีชื่อตอน";
+
+
+    saveData();
+
+    updateSaveStatus();
+
+  }
+
+
+  /* ========================================
+     EDITOR
+  ======================================== */
+
+  function editorChanged() {
+
+    const story =
+      data.stories.find(
+        s => s.id === currentStoryId
+      );
+
+    if (!story) return;
+
+
+    const chapter =
+      story.chapters.find(
+        c => c.id === currentChapterId
+      );
+
+    if (!chapter) return;
+
+
+    chapter.content =
+      document
+        .getElementById("editor")
+        .value;
+
+
+    saveData();
+
+    updateStats();
+
+    updateSaveStatus();
+
+  }
+
+
+  /* ========================================
+     STATS
+  ======================================== */
+
+  function updateStats() {
+
+    const text =
+      document
+        .getElementById("editor")
+        .value;
+
+
+    const words =
+      countWords(text);
+
+
+    const characters =
+      text.length;
+
+
+    document
+      .getElementById("wordCount")
+      .textContent =
+      words.toLocaleString();
+
+
+    document
+      .getElementById("charCount")
+      .textContent =
+      characters.toLocaleString();
+
+
+    const goal =
+      Number(
+        document
+          .getElementById("goalInput")
+          .value
+      ) || 2000;
+
+
+    const percent =
+      Math.min(
         100,
-        Math.round((words / goal) * 100)
+        Math.round(
+          (words / goal) * 100
+        )
       );
 
-      goalPercent.textContent =
-        percentage + "%";
 
-      progressBar.style.width =
-        percentage + "%";
+    document
+      .getElementById("goalPercent")
+      .textContent =
+      percent + "%";
 
-      goalCurrent.textContent =
-        words.toLocaleString("en-US") + " words";
 
-      /*
-        Remaining words
-      */
+    document
+      .getElementById("progress")
+      .style.width =
+      percent + "%";
 
-      const remaining = Math.max(
-        0,
-        goal - words
+  }
+
+
+  /* ========================================
+     GOAL
+  ======================================== */
+
+  function saveGoal() {
+
+    const story =
+      data.stories.find(
+        s => s.id === currentStoryId
       );
 
-      remainingWords.textContent =
-        remaining.toLocaleString("en-US");
+    if (!story) return;
+
+
+    const chapter =
+      story.chapters.find(
+        c => c.id === currentChapterId
+      );
+
+    if (!chapter) return;
+
+
+    chapter.goal =
+      Number(
+        document
+          .getElementById("goalInput")
+          .value
+      ) || 2000;
+
+
+    saveData();
+
+    updateStats();
+
+  }
+
+
+  /* ========================================
+     SAVE STATUS
+  ======================================== */
+
+  function updateSaveStatus() {
+
+    const status =
+      document.getElementById(
+        "saveStatus"
+      );
+
+    status.textContent =
+      "บันทึกแล้ว";
+
+  }
+
+
+  /* ========================================
+     GO HOME
+  ======================================== */
+
+  function goHome() {
+
+    saveCurrentChapter();
+
+    document
+      .getElementById("editorPage")
+      .classList.add("hidden");
+
+
+    document
+      .getElementById("homePage")
+      .classList.remove("hidden");
+
+
+    renderHome();
+
+    window.scrollTo(
+      0,
+      0
+    );
+
+  }
+
+
+  function saveCurrentChapter() {
+
+    if (!currentStoryId ||
+        !currentChapterId) {
+      return;
     }
 
 
-    /*
-      -----------------------------------------------
-      Save
-      -----------------------------------------------
-    */
-
-    let saveTimer = null;
-
-    function saveData() {
-
-      localStorage.setItem(
-        STORAGE.text,
-        editor.value
+    const story =
+      data.stories.find(
+        s => s.id === currentStoryId
       );
 
-      localStorage.setItem(
-        STORAGE.title,
-        chapterTitle.value
+    if (!story) return;
+
+
+    const chapter =
+      story.chapters.find(
+        c => c.id === currentChapterId
       );
 
-      localStorage.setItem(
-        STORAGE.goal,
-        goalInput.value
+    if (!chapter) return;
+
+
+    chapter.title =
+      document
+        .getElementById("chapterTitleInput")
+        .value;
+
+
+    chapter.content =
+      document
+        .getElementById("editor")
+        .value;
+
+
+    chapter.goal =
+      Number(
+        document
+          .getElementById("goalInput")
+          .value
+      ) || 2000;
+
+
+    saveData();
+
+  }
+
+
+  /* ========================================
+     MODAL
+  ======================================== */
+
+  function openModal(
+    title,
+    description,
+    value,
+    callback
+  ) {
+
+    document
+      .getElementById("modalTitle")
+      .textContent =
+      title;
+
+
+    document
+      .getElementById("modalDescription")
+      .textContent =
+      description;
+
+
+    const input =
+      document.getElementById(
+        "modalInput"
       );
 
-      saveStatus.textContent = "saved";
 
-      clearTimeout(saveTimer);
+    input.value = value || "";
 
-      saveTimer = setTimeout(() => {
-        saveStatus.textContent = "";
-      }, 1800);
+
+    modalAction = callback;
+
+
+    document
+      .getElementById("modalBackdrop")
+      .classList.remove("hidden");
+
+
+    setTimeout(() => {
+
+      input.focus();
+
+      input.select();
+
+    }, 50);
+
+  }
+
+
+  function closeModal() {
+
+    document
+      .getElementById("modalBackdrop")
+      .classList.add("hidden");
+
+
+    modalAction = null;
+
+  }
+
+
+  function confirmModal() {
+
+    const input =
+      document.getElementById(
+        "modalInput"
+      );
+
+
+    const value =
+      input.value.trim();
+
+
+    if (modalAction) {
+
+      const callback =
+        modalAction;
+
+      closeModal();
+
+      callback(value);
+
     }
 
+  }
 
-    /*
-      -----------------------------------------------
-      Autosave
-      -----------------------------------------------
-    */
 
-    function scheduleSave() {
+  function modalEnter(event) {
 
-      saveStatus.textContent = "saving...";
+    if (event.key === "Enter") {
 
-      clearTimeout(saveTimer);
+      confirmModal();
 
-      saveTimer = setTimeout(() => {
-        saveData();
-      }, 500);
     }
 
+    if (event.key === "Escape") {
 
-    /*
-      -----------------------------------------------
-      Load saved data
-      -----------------------------------------------
-    */
+      closeModal();
 
-    function loadData() {
-
-      const savedText =
-        localStorage.getItem(STORAGE.text);
-
-      const savedTitle =
-        localStorage.getItem(STORAGE.title);
-
-      const savedGoal =
-        localStorage.getItem(STORAGE.goal);
-
-
-      if (savedText !== null) {
-        editor.value = savedText;
-      }
-
-      if (savedTitle !== null) {
-        chapterTitle.value = savedTitle;
-      }
-
-      if (savedGoal !== null) {
-
-        const goal = parseInt(
-          savedGoal,
-          10
-        );
-
-        if (
-          Number.isFinite(goal) &&
-          goal >= 1 &&
-          goal <= 100000
-        ) {
-          goalInput.value = goal;
-        }
-      }
-
-      updateStats();
-
-      saveStatus.textContent = "saved";
     }
 
+  }
 
-    /*
-      -----------------------------------------------
-      Events
-      -----------------------------------------------
-    */
 
-    editor.addEventListener(
-      "input",
-      () => {
-        updateStats();
-        scheduleSave();
+  /* ========================================
+     ESCAPE HTML
+  ======================================== */
+
+  function escapeHTML(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /* ========================================
+     KEYBOARD SHORTCUT
+  ======================================== */
+
+  document.addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        (event.ctrlKey ||
+        event.metaKey) &&
+        event.key.toLowerCase() === "s"
+      ) {
+
+        event.preventDefault();
+
+        saveCurrentChapter();
+
+        updateSaveStatus();
+
       }
-    );
+
+    }
+  );
 
 
-    chapterTitle.addEventListener(
-      "input",
-      () => {
-        scheduleSave();
-      }
-    );
+  /* ========================================
+     INITIALIZE
+  ======================================== */
 
+  loadData();
 
-    goalInput.addEventListener(
-      "input",
-      () => {
+  renderHome();
 
-        let value =
-          parseInt(goalInput.value, 10);
-
-        if (!Number.isFinite(value)) {
-          value = 2000;
-        }
-
-        value = Math.max(
-          1,
-          Math.min(100000, value)
-        );
-
-        goalInput.value = value;
-
-        updateStats();
-        scheduleSave();
-      }
-    );
-
-
-    /*
-      -----------------------------------------------
-      Clear button
-      -----------------------------------------------
-    */
-
-    clearButton.addEventListener(
-      "click",
-      () => {
-
-        const confirmed =
-          window.confirm(
-            "ลบข้อความในบทนี้ทั้งหมดหรือไม่?"
-          );
-
-        if (!confirmed) {
-          return;
-        }
-
-        editor.value = "";
-
-        updateStats();
-        saveData();
-
-        editor.focus();
-      }
-    );
-
-
-    /*
-      -----------------------------------------------
-      Keyboard shortcut
-      Ctrl + S / Cmd + S
-      -----------------------------------------------
-    */
-
-    document.addEventListener(
-      "keydown",
-      (event) => {
-
-        if (
-          (event.ctrlKey || event.metaKey) &&
-          event.key.toLowerCase() === "s"
-        ) {
-
-          event.preventDefault();
-
-          saveData();
-        }
-      }
-    );
-
-
-    /*
-      -----------------------------------------------
-      Start
-      -----------------------------------------------
-    */
-
-    loadData();
-
-  </script>
+</script>
 
 </body>
 </html>
